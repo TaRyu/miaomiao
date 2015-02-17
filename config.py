@@ -11,7 +11,7 @@ class Config:
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     MIAO_MAIL_SUBJECT_PREFIX = u'喵说[Admin]'
-    MIAO_MAIL_SENDER = 'miaosay Admin <flasky@example.com>'
+    MIAO_MAIL_SENDER = 'miaosay Admin <miaosay@outlook.com>'
     MIAO_ADMIN = os.environ.get('MIAO_ADMIN')
     MIAO_PER_PAGE = 20
 
