@@ -1,0 +1,7 @@
+<p>Hi {{ user.username }},</p>
+<p>欢迎加入<b>喵说</b>!</p>
+<p><a href="{{ url_for('auth.confirm', token=token, _external=True) }}">点击这里</a>完成邮箱认证。</p>
+<p>你也可以复制下面的链接到浏览器地址栏完成认证:</p>
+<p>{{ url_for('auth.confirm', token=token, _external=True) }}</p>
+<p>喵说</p>
+<p><small>注意：这个邮件由系统自动生成，请勿回复。</small></p>

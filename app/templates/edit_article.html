@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}编辑{% endblock %}
+
+{% block head %}
+{{ super() }}
+<!-- 加入图标 -->
+<script src="//cdn.ckeditor.com/4.4.7/full/ckeditor.js"></script>
+{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>编辑</h1>
+</div>
+<div>
+    {{ wtf.quick_form(form) }}
+    <script>
+        CKEDITOR.replace('article-body',
+                        {customConfig: '{{ url_for('static', filename='ckeditor_config.js') }}'});
+    </script>
+</div>
+{% endblock %}

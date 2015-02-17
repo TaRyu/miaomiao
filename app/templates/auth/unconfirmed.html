@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}用户未激活{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>
+        你好, {{ current_user.username }}!
+    </h1>
+    <h3>你当前处于未激活状态喵！</h3>
+    <p>
+        请检查你的邮箱，点击激活链接以完成激活。
+        （注意检查垃圾邮件喵）
+    </p>
+    <p>
+        没有收到邮件吗？？
+        <a href="{{ url_for('auth.resend_confirmation') }}">点击获取新的认证邮件</a>
+    </p>
+</div>
+{% endblock %}

@@ -1,0 +1,38 @@
+<ul class="articles">
+    {% for article in articles %}
+    <li class="article">
+        <div class="article-thumbnail">
+            <a href="{{ url_for('.user', username=article.author.username) }}">
+                <img class="img-rounded profile-thumbnail" src="{{ article.author.gravatar(size=42) }}">
+            </a>
+        </div>
+        <div class="article-content">
+            <div class="article-date">{{ moment(article.timestamp, True).fromNow() }}</div>
+            <div class="article-author"><a href="{{ url_for('.user', username=article.author.username) }}">{{ article.author.username }}</a></div>
+            <div class="article-title">
+                {{ article.title }}
+            </div>
+            <div class="article-body">
+                {{ article.about }}
+            </div>
+            <div class="article-footer">
+                <a href="{{ url_for('.article', id=article.id) }}">
+                    <span class="label label-default">详情</span>
+                </a>
+                {% if current_user == article.author %}
+                <a href="{{ url_for('.edit', id=article.id) }}">
+                    <span class="label label-primary">编辑</span>
+                </a>
+                {% elif current_user.is_administrator() %}
+                <a href="{{ url_for('.edit', id=article.id) }}">
+                    <span class="label label-danger">Edit[Admin]</span>
+                </a>
+                {% endif %}
+                <a href="{{ url_for('.article', id=article.id) }}#comments">
+                    <span class="label label-primary">{{ article.comments.__len__() }}条评论</span>
+                </a>
+            </div>
+        </div>
+    </li>
+    {% endfor %}
+</ul>

@@ -1,0 +1,12 @@
+Hi {{ user.username }},
+
+欢迎加入喵说!
+
+请点击下面的链接完成认证:
+
+{{ url_for('auth.confirm', token=token, _external=True) }}
+
+
+喵说
+
+注意：这个邮件由系统自动生成，请勿回复。

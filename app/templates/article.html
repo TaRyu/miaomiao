@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
+{% block title %}{{ article.title }}{% endblock %}
+
+{% block page_content %}
+<div class="">
+    <h1>{{ article.title }}</h1>
+</div>
+<ul class="articles">
+    <li class="article">
+        <div class="article-thumbnail">
+            <a href="{{ url_for('.user', username=article.author.username) }}">
+                <img class="img-rounded profile-thumbnail" src="{{ article.author.gravatar(size=40) }}">
+            </a>
+        </div>
+        <div class="article-content">
+            <div class="article-date">{{ moment(article.timestamp, True).fromNow() }}</div>
+            <div class="article-author">作者：<a href="{{ url_for('.user', username=article.author.username) }}">{{ article.author.username }}</a></div>
+            <div class="article-body">
+                {{ article.body | safe }}
+            </div>
+            <div class="article-footer">
+                {% if current_user == article.author %}
+                <a href="{{ url_for('.edit', id=article.id) }}">
+                    <span class="label label-primary">编辑</span>
+                </a>
+                {% elif current_user.is_administrator() %}
+                <a href="{{ url_for('.edit', id=article.id) }}">
+                    <span class="label label-danger">Edit[Admin]</span>
+                </a>
+                {% endif %}
+                    <span class="label label-primary">{{ article.comments.__len__() }}条评论</span>
+                </a>
+            </div>
+        </div>
+    </li>
+</ul>
+
+<h4 id="comments">评论</h4>
+{% if current_user.can(Permission.COMMENT) %}
+<div class="comment-form">
+    {{ wtf.quick_form(form) }}
+</div>
+{% endif %}
+{% include "_comments.html" %}
+{% if pagination %}
+<div class="pagination">
+    {{ macros.pagination_widget(pagination, '.article', fragment='#comments', id=article.id) }}
+</div>
+{% endif %}
+{% endblock %}
