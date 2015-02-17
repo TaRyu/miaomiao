@@ -1,6 +1,5 @@
 # coding: utf-8
 import os
-# basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config:
@@ -22,7 +21,6 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    MONGODB_DB = 'dev-miao'
 
 
 class TestingConfig(Config):
@@ -31,7 +29,11 @@ class TestingConfig(Config):
 
 
 class ProductionConfig(Config):
-    MONGODB_DB = 'miao'
+    MONGODB_DB = 'miaosay'
+    MONGODB_HOST = 'ds045011.mongolab.com'
+    MONGODB_PORT = 45011
+    MONGODB_USERNAME = 'miaomiao'
+    MONGODB_PASSWORD = os.environ.get('DB_PASSWORD')
 
     @classmethod
     def init_app(cls, app):

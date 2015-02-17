@@ -5,7 +5,7 @@ from app import create_app, db
 from app.models import Role, Permission, User, Article
 from flask.ext.script import Manager, Shell
 
-app = create_app(os.getenv('FLASK_CONFIG') or 'default')
+app = create_app(os.getenv('MIAO_CONFIG') or 'default')
 manager = Manager(app)
 
 
