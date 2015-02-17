@@ -87,7 +87,7 @@ class User(UserMixin, db.Document):
         if self.email is not None and self.avatar_hash is None:
             self.avatar_hash = hashlib.md5(
                 self.email.encode('utf-8')).hexdigest()
-        Follow(follower=self, followed=self).save()
+        self.follow(self).save()
 
     @property
     def password(self):
