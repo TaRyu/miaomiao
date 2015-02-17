@@ -21,6 +21,7 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
+    MONGODB_DB = 'dev-miao'
 
 
 class TestingConfig(Config):
