@@ -38,11 +38,13 @@
     </li>
 </ul>
 
-<h4 id="comments">评论</h4>
 {% if current_user.can(Permission.COMMENT) %}
+<h4 id="comments">评论</h4>
 <div class="comment-form">
     {{ wtf.quick_form(form) }}
 </div>
+{% else %}
+<h4 id="comments">请登陆添加评论</h4>
 {% endif %}
 {% include "_comments.html" %}
 {% if pagination %}
