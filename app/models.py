@@ -207,6 +207,7 @@ class Article(db.Document):
     belong = db.StringField(max_length=16)
     body = db.StringField(max_length=20000)
     # comments_id = db.ListField(db.ReferenceField('Comment'))
+    read_count = db.IntField(default=0)
     timestamp = db.DateTimeField(default=datetime.now())
     required_login = db.BooleanField(default=False)
 

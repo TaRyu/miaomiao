@@ -17,9 +17,9 @@
           <h1>欢迎来到喵说！</h1>
           <p>当初建站的初衷是建立一个让大家发布（转发）小说的网站，但现在看来喵说的定位还不确定，目前希望营造一个干净的交流空间，没事的时候喵几下！</p>
           {% if current_user.is_authenticated() %}
-          <p><a class="btn btn-lg btn-primary" href="{{ url_for('main.write_article') }}" role="button">喵个说d(=^･ω･^=)b ﾆｬｯ! </a></p>
+          <p><a class="btn btn-lg btn-primary" href="{{ url_for('main.write_article') }}" role="button">喵个说</a></p>
           {% else %}
-          <p><a class="btn btn-lg btn-primary" href="{{ url_for('auth.register') }}" role="button">现在注册d(=^･ω･^=)b ﾆｬｯ! </a></p>
+          <p><a class="btn btn-lg btn-primary" href="{{ url_for('auth.register') }}" role="button">现在注册</a></p>
           {% endif %}
         </div>
       </div>
@@ -30,7 +30,7 @@
         <div class="carousel-caption">
           <h1>想改变头像？</h1>
           <p>Gravatar是Globally Recognized Avatar的缩写,意为“全球通用头像”。如果在Gravatar的服务器上放置了你自己的头像，那么在本站会显示出你放置的头像，当然要确保email地址是你注册的email地址哦。</p>
-          <p><a class="btn btn-lg btn-primary" href="http://cn.gravatar.com/" role="button" target="_blank">去Gravatar(=´∇｀=)にゃん</a></p>
+          <p><a class="btn btn-lg btn-primary" href="http://cn.gravatar.com/" role="button" target="_blank">去Gravatar</a></p>
         </div>
       </div>
     </div>

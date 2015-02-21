@@ -10,7 +10,7 @@
             <div class="article-date">{{ moment(article.timestamp).fromNow()}}</div>
             <div class="article-author"><a href="{{ url_for('.user', username=article.author.username) }}">{{ article.author.username }}</a></div>
             <div class="article-title">
-                {{ article.title }}
+                {{ article.title }}{% if current_user.can(Permission.MODERATE_COMMENTS) %}<a class="btn btn-danger btn=xs" href="{{ url_for('.delete_article', id=article.id) }}">删除</a>{% endif %}
             </div>
             <div class="article-body">
                 {{ article.about }}
@@ -31,6 +31,7 @@
                 <a href="{{ url_for('.article', id=article.id) }}#comments">
                     <span class="label label-primary">{{ article.comments.__len__() }}条评论</span>
                 </a>
+                <span class="label label-primary">{{ article.read_count }}次浏览</span>
             </div>
         </div>
     </li>

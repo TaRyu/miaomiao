@@ -154,6 +154,8 @@ def write_article():
 @main.route('/post/<int:id>', methods=['GET', 'POST'])
 def article(id):
     article = Article.objects.get_or_404(id=id)
+    article.read_count += 1
+    article.save()
     form = CommentForm()
     if form.validate_on_submit():
         comment = Comment(article_id=article.id,
@@ -193,6 +195,17 @@ def edit(id):
     form.about.data = article.about
     form.body.data = article.body
     return render_template('edit_article.html', form=form)
+
+
+@main.route('/delete_article/<int:id>')
+@login_required
+@permission_required(Permission.MODERATE_COMMENTS)
+def delete_article(id):
+    article = Article.objects.get_or_404(id=id)
+    article.delete()
+    Comment.objects(article_id=id).all().delete()
+    flash(u'文章已删除')
+    return redirect(url_for('.index'))
 
 
 @main.route('/delete_comment/<int:id>')

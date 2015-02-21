@@ -12,7 +12,6 @@ class Config:
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     MIAO_MAIL_SUBJECT_PREFIX = u'喵说[Admin]'
     MIAO_MAIL_SENDER = 'miaosay Admin <miaosay@outlook.com>'
-    MIAO_ADMIN = os.environ.get('MIAO_ADMIN')
     MIAO_PER_PAGE = 20
 
     @staticmethod
@@ -22,6 +21,7 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
+    MIAO_ADMIN = 'admin@mail.com'
     MONGODB_DB = 'dev-miao'
 
 
@@ -31,6 +31,7 @@ class TestingConfig(Config):
 
 
 class ProductionConfig(Config):
+    MIAO_ADMIN = os.environ.get('MIAO_ADMIN')
     MONGODB_DB = 'miaosay'
     MONGODB_HOST = 'ds045011.mongolab.com'
     MONGODB_PORT = 45011
