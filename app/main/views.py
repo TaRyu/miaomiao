@@ -2,6 +2,7 @@
 from flask import render_template, flash, redirect, url_for, request,\
         current_app, abort, make_response
 from flask.ext.login import login_required, current_user
+from datetime import datetime
 from . import main
 from .forms import EditProfileForm, EditProfileAdminForm, WriteArticleForm,\
         CommentForm
@@ -144,7 +145,8 @@ def write_article():
         article = Article(title=form.title.data,
                           author=current_user.id,
                           about=form.about.data,
-                          body=form.body.data)
+                          body=form.body.data,
+                          timestamp=datetime.now())
         article.save()
         flash(u'完成喵！')
         return redirect(url_for('.index'))
@@ -160,7 +162,8 @@ def article(id):
     if form.validate_on_submit():
         comment = Comment(article_id=article.id,
                           body=form.body.data,
-                          author=current_user.id)
+                          author=current_user.id,
+                          timestamp=datetime.now())
         comment.save()
         flash(u'评论成功')
         return redirect(url_for('.article', id=article.id, page=-1))
