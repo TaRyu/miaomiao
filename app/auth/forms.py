@@ -26,7 +26,8 @@ class RegistrationForm(Form):
                            Length(1, 128, message=u'请控制在64个字符以内！')])
     password = PasswordField(u'密码', validators=[
         Required(),
-        EqualTo('password2', message=u'与验证密码不同！')])
+        EqualTo('password2', message=u'与验证密码不同！'),
+        Length(6, 64, message=u'请控制在6到64个字符范围内！')])
     password2 = PasswordField(u'验证密码',
                               validators=[Required()])
     submit = SubmitField(u'注册')

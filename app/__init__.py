@@ -28,9 +28,9 @@ def create_app(config_name):
     db.init_app(app)
     login_manager.init_app(app)
 
-    # if not app.debug and not app.testing and not app.config['SSL_DISABLE']:
-    #     from flask.ext.sslify import SSLify
-    #     sslify = SSLify(app)
+    if not app.debug and not app.testing and not app.config['SSL_DISABLE']:
+        from flask.ext.sslify import SSLify
+        sslify = SSLify(app)
 
     # 下面注册路由表
     from .main import main as main_blueprint
