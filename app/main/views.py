@@ -151,7 +151,7 @@ def write_article():
     return render_template('write_article.html', form=form)
 
 
-@main.route('/article/<int:id>', methods=['GET', 'POST'])
+@main.route('/post/<int:id>', methods=['GET', 'POST'])
 def article(id):
     article = Article.objects.get_or_404(id=id)
     article.read_count += 1
