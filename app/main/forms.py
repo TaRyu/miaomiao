@@ -1,8 +1,9 @@
 # coding: utf-8
 from flask.ext.wtf import Form
 from wtforms import StringField, SubmitField, TextAreaField, SelectField,\
-    ValidationError, BooleanField
+    ValidationError, BooleanField, SelectMultipleField, FieldList, IntegerField
 from wtforms.validators import Required, Length, Email
+from  wtforms.widgets import ListWidget
 from ..models import Role, User
 
 
@@ -63,3 +64,20 @@ class WriteArticleForm(Form):
 class CommentForm(Form):
     body = StringField('', validators=[Required()])
     submit = SubmitField(u'提交')
+
+
+class CreateCollectionForm(Form):
+    name = StringField(u'合集名', validators=[Required(),
+                       Length(1, 64, message=u'请控制在64个字符以内！')])
+    about = StringField(u'简介', validators=[Length(0, 256,
+                        message=u'请控制在256个字符以内！')])
+    articles = SelectMultipleField(u'合集文章')
+    hidden = SelectMultipleField(u'hidden', choices=[(0, 0)])
+    submit = SubmitField(u'提交')
+
+    def __init__(self, user, *args, **kwargs):
+        super(CreateCollectionForm, self).__init__(*args, **kwargs)
+        self.user = user
+        self.articles.choices = [(str(article.id), article.title)
+                                 for article in self.user.articles]
+        self.hidden.choices = self.articles.choices

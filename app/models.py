@@ -148,7 +148,7 @@ class User(UserMixin, db.Document):
 
     @property
     def articles(self):
-        return Article.objects(author=self)
+        return Article.objects(author=self).all()
 
     @property
     def followed_articles(self):
@@ -202,7 +202,7 @@ class Article(db.Document):
     title = db.StringField(max_length=64)
     author = db.ReferenceField('User')
     about = db.StringField(max_length=256)
-    tag = db.ListField(db.StringField(max_length=16))
+    tags = db.ListField(db.StringField(max_length=16))
     level = db.IntField(default=0)
     belong = db.StringField(max_length=16)
     body = db.StringField(max_length=20000)
@@ -223,6 +223,22 @@ class Article(db.Document):
 
     def __repr__(self):
         return '<Article %r>' % self.title
+
+
+class Collection(db.Document):
+    id = db.SequenceField(primary_key=True)
+    author = db.ReferenceField('User')
+    name = db.StringField(max_length=64)
+    about = db.StringField(max_length=256)
+    articles = db.ListField(db.ReferenceField('Article'))
+    tags = db.ListField(db.StringField(max_length=16))
+    timestamp = db.DateTimeField(default=datetime.now())
+
+    meta = {
+        'indexes': ['-timestamp', 'name'],
+        'ordering': ['-timestamp'],
+        'collection': 'collections'
+    }
 
 
 class Comment(db.Document):

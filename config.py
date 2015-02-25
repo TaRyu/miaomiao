@@ -3,7 +3,7 @@ import os
 
 
 class Config:
-    SECRET_KEY = os.environ.get('SECRET_KEY')
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'dev'
     SSL_DISABLE = True
     MAIL_SERVER = 'smtp-mail.outlook.com'
     MAIL_PORT = 587

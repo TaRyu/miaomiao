@@ -5,9 +5,9 @@ from flask.ext.login import login_required, current_user
 from datetime import datetime
 from . import main
 from .forms import EditProfileForm, EditProfileAdminForm, WriteArticleForm,\
-        CommentForm
+        CommentForm, CreateCollectionForm
 # from .. import db
-from ..models import User, Role, Article, Permission, Comment
+from ..models import User, Role, Article, Permission, Comment, Collection
 from ..decorators import admin_required, permission_required
 
 
@@ -219,6 +219,42 @@ def delete_comment(id):
     comment.delete()
     flash(u'评论已删除')
     return redirect(url_for('.article', id=comment.article_id))
+
+
+# @app.route('/append_list')
+# def append_list():
+#     a = request.args.get('a', 0, type=int)
+#     b = request.args.get('b', 0, type=int)
+#     return jsonify(result=a + b)
+
+
+@main.route('/create_collection', methods=['GET', 'POST'])
+@login_required
+def create_collection():
+    form = CreateCollectionForm(user=current_user)
+    if form.validate_on_submit():
+        collection = Collection(name=form.name.data,
+                                author=current_user.id,
+                                about=form.about.data,
+                                articles=[int(i) for i in form.hidden.data],
+                                timestamp=datetime.now())
+        collection.save()
+        flash(u'完成喵！')
+        return redirect(url_for('.index'))
+    return render_template('create_collection.html', form=form)
+
+
+@main.route('/collection/<int:id>', methods=['GET', 'POST'])
+def collection(id):
+    collection = Collection.objects.get_or_404(id=id)
+    page = request.args.get('page', 1, type=int)
+    pagination = collection.paginate_field(
+        page=page, per_page=current_app.config['MIAO_PER_PAGE'],
+        field_name='articles')
+    articles = pagination.items
+    return render_template('index.html', articles=articles,
+                           count=collection.articles.__len__(),
+                           pagination=pagination)
 
 
 @main.route('/followers/<username>')

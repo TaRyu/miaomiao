@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}整理成合集{% endblock %}
+
+{% block head %}
+{{ super() }}
+<!-- 加入图标 -->
+  <!-- <link rel="stylesheet" href="{{ url_for('static', filename='chosen/docsupport/style.css') }}"> -->
+  <!-- <link rel="stylesheet" href="{{ url_for('static', filename='chosen/docsupport/prism.css') }}"> -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='chosen/chosen.css') }}">
+  <style type="text/css" media="all">
+    /* fix rtl for demo */
+    .chosen-rtl .chosen-drop { left: -9000px; }
+  </style>
+{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>整理成合集</h1>
+</div>
+<div>
+    <form class="form form-horizontal" method="post" role="form">
+        {{ form.hidden_tag() }}
+        {{ wtf.form_errors(form, hiddens="only") }}
+        {{ wtf.form_field(form.name) }}
+        {{ wtf.form_field(form.about) }}
+        <div class="form-group ">
+        <label class="control-label" for="articles">选择合集文章</label>
+        {{ form.articles(data_placeholder="请选择文章", class="chosen-select-no-results form-control", id="form_field") }}
+        {{ form.hidden(class='hidden') }}
+        </div>
+        {{ wtf.form_field(form.submit) }}
+    </form>
+</div>
+{% endblock %}
+{% block scripts %}
+{{ super() }}
+  <script src="{{ url_for('static', filename='chosen/chosen.jquery.min.js') }}" type="text/javascript"></script>
+  <script type="text/javascript">
+    $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+    var config = {
+      '.chosen-select'           : {},
+      '.chosen-select-deselect'  : {allow_single_deselect:true},
+      '.chosen-select-no-single' : {disable_search_threshold:10},
+      '.chosen-select-no-results': {no_results_text:'ヾ(ﾟдﾟ)ﾉ找不到'},
+      '.chosen-select-width'     : {width:"95%"}
+    }
+    for (var selector in config) {
+      $(selector).chosen(config[selector]);
+    }
+    var arr = []
+    $('#form_field').on('change', function(evt, params) {
+
+        if (params.selected) {
+            // arr.push(params.selected);
+            // $('#hidden').append("<li id="+params.selected+"><input id=input-"+params.selected+" value="+params.selected+"></input></li>");
+            // $("#input-"+params.selected).text(params.selected);
+            $('#hidden').append("<option value="+params.selected+" selected='selected'>"+params.selected+"</option>");
+            // $("#hidden option[value="+params.selected+"]").attr({"value": params.selected/1})
+        }else{
+            // arr.splice($.inArray(params.deselected,arr),1);
+            // $("#"+params.deselected).remove();
+            $("#hidden option[value="+params.deselected+"]").remove();
+        }
+        // $.getJSON($SCRIPT_ROOT + '/create_collection', {
+                // a: arr,
+              // });
+        // $.ajax({
+        //         type: 'POST',
+        //         url: $SCRIPT_ROOT + '/create_collection',
+        //         data: JSON.stringify({a: arr}),
+        //         contentType: 'application/json'
+        //         });
+        // alert(form.articles.data);
+    // }, function() {
+         // $.getJSON($SCRIPT_ROOT + '/create_collection', {
+                // a: arr,
+              // };
+    });
+    // $("#submit").click( function() {$.ajax({
+    //                                 type: 'POST',
+    //                                 url: $SCRIPT_ROOT + '/create_collection',
+    //                                 data: JSON.stringify({a: arr, csrf_token:}),
+    //                                 contentType: 'application/json'
+    //                                 });
+    // });
+  </script>
+{% endblock %}
+
+
